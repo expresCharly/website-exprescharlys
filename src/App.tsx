@@ -3,6 +3,9 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import logoUrl from '../imgs/logo.png'
 import kidsAreaOneUrl from '../imgs/area-de-ninos.jpeg'
 import kidsAreaTwoUrl from '../imgs/area-de-ninos-2.jpeg'
+import offerBurgerUrl from '../imgs/ofertas/oferta-hamburguesa.png'
+import offerPizzaUrl from '../imgs/ofertas/oferta-pizza.png'
+import offerBurritosUrl from '../imgs/ofertas/oferta-burritos.png'
 
 type CategoryId = 'abarrotes' | 'farmacia' | 'restaurante'
 type ModalId = CategoryId | 'carrito' | null
@@ -106,6 +109,27 @@ const aboutImages = Array.from({ length: 11 }, (_, index) => ({
   alt: `Instalaciones de Expres Charlys, fotografía ${index + 1}`,
 }))
 
+const offerImages = [
+  {
+    src: offerBurgerUrl,
+    alt: 'Hamburguesa con papas y refresco',
+    title: 'Combo para consentirte',
+    description: 'Hamburguesa, papas y bebida para disfrutar el antojo completo.',
+  },
+  {
+    src: offerPizzaUrl,
+    alt: 'Pizza de pepperoni acompañada de dos refrescos',
+    title: 'Más sabor para compartir',
+    description: 'Pizza recién preparada y bebidas para disfrutar en compañía.',
+  },
+  {
+    src: offerBurritosUrl,
+    alt: 'Burritos con papas y refresco',
+    title: 'Todo el sabor en un combo',
+    description: 'Burritos, papas y bebida en una opción que lo tiene todo.',
+  },
+]
+
 function useRevealOnScroll() {
   useEffect(() => {
     const elements = document.querySelectorAll<HTMLElement>('.reveal')
@@ -129,6 +153,7 @@ function App() {
   const [toasts, setToasts] = useState<Toast[]>([])
   const [kidsSlide, setKidsSlide] = useState(0)
   const [aboutSlide, setAboutSlide] = useState(0)
+  const [offerSlide, setOfferSlide] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const toastId = useRef(0)
   const menuCarouselRef = useRef<HTMLDivElement>(null)
@@ -176,6 +201,16 @@ function App() {
     const interval = window.setInterval(() => {
       setAboutSlide((current) => (current + 1) % aboutImages.length)
     }, 6000)
+
+    return () => window.clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const interval = window.setInterval(() => {
+      setOfferSlide((current) => (current + 1) % offerImages.length)
+    }, 5500)
 
     return () => window.clearInterval(interval)
   }, [])
@@ -288,6 +323,7 @@ function App() {
         </button>
         <div className="nav-right">
           <ul className="nav-links">
+            <li><a href="#ofertas" onClick={() => setSidebarOpen(false)}><span aria-hidden="true">🔥</span> Ofertas</a></li>
             <li><a href="#productos" onClick={() => setSidebarOpen(false)}><span aria-hidden="true">🛒</span> Productos</a></li>
             <li><a href="#comida" onClick={() => setSidebarOpen(false)}><span aria-hidden="true">🍽️</span> Comida</a></li>
             <li><a href="#conocenos" onClick={() => setSidebarOpen(false)}><span aria-hidden="true">👋</span> Conócenos</a></li>
@@ -317,7 +353,79 @@ function App() {
             <div className="hero-cta">
               <a href="#comida" className="btn btn-yellow">Ver Menús 🍕</a>
               <a href="#productos" className="btn btn-outline">Productos 🛒</a>
+              <a href="#ofertas" className="btn btn-offers">Ofertas 🔥</a>
               <a href="#conocenos" className="btn btn-outline">Conócenos 👋</a>
+            </div>
+          </div>
+        </section>
+
+        <div className="divider" />
+
+        <section className="section offers-section" id="ofertas">
+          <div className="container">
+            <div className="center">
+              <div className="section-label">🔥 Aprovecha y disfruta</div>
+              <h2 className="section-title">Ofertas especiales</h2>
+              <p className="offers-intro">
+                Descubre las promociones que tenemos preparadas para ti.
+              </p>
+            </div>
+
+            <div
+              className="offers-carousel reveal"
+              role="region"
+              aria-roledescription="carrusel"
+              aria-label="Ofertas de Expres Charlys"
+            >
+              <img
+                key={offerImages[offerSlide].src}
+                className="offer-image"
+                src={offerImages[offerSlide].src}
+                alt={offerImages[offerSlide].alt}
+              />
+              <div className="offer-copy">
+                <span className="offer-kicker">Oferta destacada</span>
+                <h3>{offerImages[offerSlide].title}</h3>
+                <p>{offerImages[offerSlide].description}</p>
+                <span className="offer-note">Pregunta por disponibilidad</span>
+              </div>
+              <span className="offer-count" aria-hidden="true">
+                {String(offerSlide + 1).padStart(2, '0')} / {String(offerImages.length).padStart(2, '0')}
+              </span>
+              <button
+                className="carousel-arrow carousel-arrow-prev"
+                type="button"
+                onClick={() =>
+                  setOfferSlide(
+                    (current) => (current - 1 + offerImages.length) % offerImages.length,
+                  )
+                }
+                aria-label="Ver oferta anterior"
+              >
+                <span aria-hidden="true">‹</span>
+              </button>
+              <button
+                className="carousel-arrow carousel-arrow-next"
+                type="button"
+                onClick={() =>
+                  setOfferSlide((current) => (current + 1) % offerImages.length)
+                }
+                aria-label="Ver siguiente oferta"
+              >
+                <span aria-hidden="true">›</span>
+              </button>
+              <div className="carousel-dots" aria-label="Elegir oferta">
+                {offerImages.map((offer, index) => (
+                  <button
+                    className={`carousel-dot${index === offerSlide ? ' active' : ''}`}
+                    type="button"
+                    key={offer.src}
+                    onClick={() => setOfferSlide(index)}
+                    aria-label={`Ver oferta ${index + 1}`}
+                    aria-current={index === offerSlide ? 'true' : undefined}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -384,7 +492,7 @@ function App() {
                     }
                     aria-label="Ver fotografía anterior de Expres Charlys"
                   >
-                    ‹
+                    <span aria-hidden="true">‹</span>
                   </button>
                   <button
                     className="carousel-arrow carousel-arrow-next"
@@ -394,7 +502,7 @@ function App() {
                     }
                     aria-label="Ver siguiente fotografía de Expres Charlys"
                   >
-                    ›
+                    <span aria-hidden="true">›</span>
                   </button>
                   <div className="carousel-dots" aria-label="Elegir fotografía">
                     {aboutImages.map((image, index) => (
@@ -449,7 +557,7 @@ function App() {
                     }
                     aria-label="Ver imagen anterior"
                   >
-                    ‹
+                    <span aria-hidden="true">‹</span>
                   </button>
                   <button
                     className="carousel-arrow carousel-arrow-next"
@@ -459,7 +567,7 @@ function App() {
                     }
                     aria-label="Ver imagen siguiente"
                   >
-                    ›
+                    <span aria-hidden="true">›</span>
                   </button>
                   <div className="carousel-dots" aria-label="Elegir imagen">
                     {kidsAreaImages.map((image, index) => (
@@ -494,7 +602,7 @@ function App() {
                 onClick={() => scrollMenu(-1)}
                 aria-label="Ver menús anteriores"
               >
-                ‹
+                <span aria-hidden="true">‹</span>
               </button>
               <div
                 className="menus-grid"
@@ -517,7 +625,7 @@ function App() {
                 onClick={() => scrollMenu(1)}
                 aria-label="Ver más menús"
               >
-                ›
+                <span aria-hidden="true">›</span>
               </button>
               <p className="menu-swipe-hint">Desliza para ver todos los menús</p>
             </div>
