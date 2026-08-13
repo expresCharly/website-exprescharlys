@@ -279,6 +279,13 @@
     object-fit:cover;
     animation:carouselFade 0.45s ease;
   }
+  .offer-image-contain {
+    object-fit:contain;
+    background:#fff;
+  }
+  .offers-carousel.offer-flyer-active::after {
+    background:linear-gradient(90deg, rgba(0,0,0,0.12), transparent 12%, transparent 88%, rgba(0,0,0,0.12));
+  }
   .offer-copy {
     position:absolute;
     left:clamp(4rem, 8vw, 7rem);
@@ -485,6 +492,18 @@
       background:linear-gradient(0deg, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.68) 43%, rgba(0,0,0,0.08) 76%);
     }
     .offer-image { object-position:60% center; }
+    .offer-image-contain {
+      object-fit:contain;
+      object-position:center;
+    }
+    .offers-carousel.offer-flyer-active {
+      min-height:0;
+      aspect-ratio:783 / 598;
+      background:#fff;
+    }
+    .offers-carousel.offer-flyer-active::after {
+      background:linear-gradient(90deg, rgba(0,0,0,0.12), transparent 16%, transparent 84%, rgba(0,0,0,0.12));
+    }
     .offer-copy {
       left:1.4rem;
       right:1.4rem;

@@ -6,6 +6,7 @@ import kidsAreaTwoUrl from '../imgs/area-de-ninos-2.jpeg'
 import offerBurgerUrl from '../imgs/ofertas/oferta-hamburguesa.png'
 import offerPizzaUrl from '../imgs/ofertas/oferta-pizza.png'
 import offerBurritosUrl from '../imgs/ofertas/oferta-burritos.png'
+import offerIceUrl from '../imgs/ofertas/hielo.png'
 
 type CategoryId = 'abarrotes' | 'farmacia' | 'restaurante'
 type ModalId = CategoryId | 'carrito' | null
@@ -115,18 +116,28 @@ const offerImages = [
     alt: 'Hamburguesa con papas y refresco',
     title: 'Combo para consentirte',
     description: 'Hamburguesa, papas y bebida para disfrutar el antojo completo.',
+    showCopy: true,
   },
   {
     src: offerPizzaUrl,
     alt: 'Pizza de pepperoni acompañada de dos refrescos',
     title: 'Más sabor para compartir',
     description: 'Pizza recién preparada y bebidas para disfrutar en compañía.',
+    showCopy: true,
   },
   {
     src: offerBurritosUrl,
     alt: 'Burritos con papas y refresco',
     title: 'Todo el sabor en un combo',
     description: 'Burritos, papas y bebida en una opción que lo tiene todo.',
+    showCopy: true,
+  },
+  {
+    src: offerIceUrl,
+    alt: 'Oferta de bolsa de hielo a 15 pesos para recoger en tienda',
+    title: 'Bolsa de hielo a 15 pesos',
+    description: 'Disponible para recoger en tienda.',
+    showCopy: false,
   },
 ]
 
@@ -372,23 +383,29 @@ function App() {
             </div>
 
             <div
-              className="offers-carousel reveal"
+              className={`offers-carousel${
+                offerImages[offerSlide].showCopy ? '' : ' offer-flyer-active'
+              }`}
               role="region"
               aria-roledescription="carrusel"
               aria-label="Ofertas de Expres Charlys"
             >
               <img
                 key={offerImages[offerSlide].src}
-                className="offer-image"
+                className={`offer-image${
+                  offerImages[offerSlide].showCopy ? '' : ' offer-image-contain'
+                }`}
                 src={offerImages[offerSlide].src}
                 alt={offerImages[offerSlide].alt}
               />
-              <div className="offer-copy">
-                <span className="offer-kicker">Oferta destacada</span>
-                <h3>{offerImages[offerSlide].title}</h3>
-                <p>{offerImages[offerSlide].description}</p>
-                <span className="offer-note">Pregunta por disponibilidad</span>
-              </div>
+              {offerImages[offerSlide].showCopy && (
+                <div className="offer-copy">
+                  <span className="offer-kicker">Oferta destacada</span>
+                  <h3>{offerImages[offerSlide].title}</h3>
+                  <p>{offerImages[offerSlide].description}</p>
+                  <span className="offer-note">Pregunta por disponibilidad</span>
+                </div>
+              )}
               <span className="offer-count" aria-hidden="true">
                 {String(offerSlide + 1).padStart(2, '0')} / {String(offerImages.length).padStart(2, '0')}
               </span>
