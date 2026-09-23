@@ -487,6 +487,7 @@ function App() {
             <div className="center">
               <div className="section-label">🔥 Disponible todos los días</div>
               <h2 className="section-title">Comida Caliente</h2>
+              <a href="/menu" className="btn btn-yellow">Abrir menú digital ↗</a>
             </div>
             <div className="menu-carousel-shell reveal">
               <button

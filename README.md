@@ -18,6 +18,20 @@ npm run build
 
 ## Menús compartidos
 
+### Menú digital y QR
+
+`/menu` muestra una carta independiente para celular, con navegación entre páginas,
+ampliación de imágenes y acceso a pedidos por WhatsApp. `/menu/qr` muestra la
+tarjeta para imprimir y descargar el QR. La portada enlaza al menú digital.
+
+El QR apunta a `https://website-exprescharlys.vercel.app/menu`; sus archivos están
+en `public/menu-qr.svg` (vector para impresión) y `public/menu-qr.png` (1200 px).
+Se regeneran con `node scripts/generate-menu-qr.mjs`. Al cambiar de dominio,
+actualiza el script y el enlace de `src/components/MenuQr.tsx`, y regenera el QR.
+Publica esta versión en Vercel antes de distribuir o imprimir el código.
+
+### Fuente de imágenes
+
 El carrusel consulta la lista `const images` de `index.html` en la rama `main` de
 https://github.com/expresCharly/restaurant-menus y carga las imágenes de ese mismo
 repositorio. No utiliza las copias antiguas de `imgs/menus` de este sitio.
