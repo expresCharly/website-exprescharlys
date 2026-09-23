@@ -7,13 +7,23 @@
     "dev": "vite",
     "build": "node ./node_modules/typescript/bin/tsc --noEmit && node ./node_modules/vite/bin/vite.js build",
     "typecheck": "node ./node_modules/typescript/bin/tsc --noEmit --pretty false",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test scripts/catalog.test.mjs",
+    "catalog:images": "node scripts/find-product-images.mjs",
+    "catalog:report": "node scripts/image-report.mjs",
+    "supabase:prepare": "node scripts/prepare-supabase.mjs",
+    "supabase:stage-images": "node scripts/prepare-storage-upload.mjs",
+    "supabase:verify": "node scripts/verify-supabase.mjs",
+    "supabase:images": "node scripts/upload-product-images.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.114.0",
+    "qrcode": "^1.5.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",

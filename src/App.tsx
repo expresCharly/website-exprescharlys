@@ -3,22 +3,13 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import logoUrl from '../imgs/logo.png'
 import kidsAreaOneUrl from '../imgs/area-de-ninos.jpeg'
 import kidsAreaTwoUrl from '../imgs/area-de-ninos-2.jpeg'
-
-type CategoryId = 'abarrotes' | 'farmacia' | 'restaurante'
+import { groupProducts, localCategories } from './data/categories'
+import { hasSupabaseConfiguration, supabase } from './lib/supabase'
+import { readProductPages } from './services/catalog-query'
+import { readMenus } from './services/menus'
+import { ProductPhoto } from './components/ProductPhoto'
+import type { CategoryId, Product } from './types/catalog'
 type ModalId = CategoryId | 'carrito' | null
-
-type Product = {
-  name: string
-  price: number
-  icon: string
-}
-
-type Category = {
-  id: CategoryId
-  name: string
-  icon: string
-  products: Product[]
-}
 
 type CartItem = Product & {
   quantity: number
@@ -28,68 +19,6 @@ type Toast = {
   id: number
   message: string
 }
-
-const categories: Category[] = [
-  {
-    id: 'abarrotes',
-    name: 'Abarrotes',
-    icon: '🛒',
-    products: [
-      { icon: '🍞', name: 'Pan Dulce', price: 15 },
-      { icon: '🥛', name: 'Leche Entera', price: 28.5 },
-      { icon: '🥚', name: 'Huevos (12 pzs)', price: 45 },
-      { icon: '🧼', name: 'Jabón de Barra', price: 12 },
-      { icon: '🥫', name: 'Sopa Enlatada', price: 22 },
-      { icon: '🍚', name: 'Arroz (1 kg)', price: 32 },
-    ],
-  },
-  {
-    id: 'farmacia',
-    name: 'Farmacia',
-    icon: '💊',
-    products: [
-      { icon: '💊', name: 'Paracetamol 500 mg', price: 35 },
-      { icon: '🩹', name: 'Curitas', price: 25 },
-      { icon: '🧴', name: 'Alcohol 96°', price: 40 },
-      { icon: '🌡️', name: 'Termómetro', price: 80 },
-      { icon: '🤧', name: 'Jarabe para la tos', price: 95 },
-      { icon: '💊', name: 'Ibuprofeno', price: 45 },
-    ],
-  },
-  {
-    id: 'restaurante',
-    name: 'Restaurante',
-    icon: '🍽️',
-    products: [
-      { icon: '🍔', name: 'Hamburguesa Sencilla', price: 65 },
-      { icon: '🍔', name: 'Hamburguesa Especial', price: 85 },
-      { icon: '🍟', name: 'Papas a la Francesa', price: 40 },
-      { icon: '🌭', name: 'Hot Dog', price: 35 },
-      { icon: '🥤', name: 'Refresco de Cola', price: 25 },
-      { icon: '🍰', name: 'Rebanada de Pastel', price: 55 },
-    ],
-  },
-]
-
-const menuImages = [
-  'menu_1.png',
-  'menu_4-6.png',
-  'menu_7-10.png',
-  'menu_11.png',
-  'menu_14.png',
-  'menu_15.png',
-  'menu_16.png',
-  'menu_17.png',
-  'menu_18.png',
-  'menu_19.png',
-  'menu_20.png',
-  'menu_21.png',
-  'menu_22.png',
-  'menu_23.png',
-  'menu_24.png',
-  'menu_25.png',
-  'menu_26.png',
-].map((fileName) => new URL(`../imgs/menus/${fileName}`, import.meta.url).href)
 
 const money = new Intl.NumberFormat('es-MX', {
   style: 'currency',
@@ -130,10 +59,65 @@ function App() {
   const [kidsSlide, setKidsSlide] = useState(0)
   const [aboutSlide, setAboutSlide] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [catalogQuery, setCatalogQuery] = useState('')
+  const [categories, setCategories] = useState(() => hasSupabaseConfiguration ? groupProducts([]) : localCategories)
+  const [catalogLoading, setCatalogLoading] = useState(hasSupabaseConfiguration)
+  const [catalogError, setCatalogError] = useState(false)
+  const [catalogAttempt, setCatalogAttempt] = useState(0)
   const toastId = useRef(0)
   const menuCarouselRef = useRef<HTMLDivElement>(null)
+  const [menuImages, setMenuImages] = useState<string[]>([])
+  const [menusLoading, setMenusLoading] = useState(true)
+  const [menusError, setMenusError] = useState(false)
+  const [menusAttempt, setMenusAttempt] = useState(0)
 
   useRevealOnScroll()
+
+  useEffect(() => {
+    const controller = new AbortController()
+    let disposed = false
+    const timeout = window.setTimeout(() => controller.abort(), 15000)
+    setMenusLoading(true)
+    setMenusError(false)
+    readMenus(controller.signal)
+      .then(images => { if (!disposed) setMenuImages(images) })
+      .catch(() => { if (!disposed) setMenusError(true) })
+      .finally(() => {
+        window.clearTimeout(timeout)
+        if (!disposed) setMenusLoading(false)
+      })
+    return () => {
+      disposed = true
+      controller.abort()
+      window.clearTimeout(timeout)
+    }
+  }, [menusAttempt])
+
+  useEffect(() => {
+    if (!hasSupabaseConfiguration) return
+    if (!supabase) {
+      setCatalogLoading(false)
+      setCatalogError(true)
+      return
+    }
+    const controller = new AbortController()
+    let disposed = false
+    const timeout = window.setTimeout(() => controller.abort(), 30000)
+    setCatalogLoading(true)
+    setCatalogError(false)
+    readProductPages(supabase, controller.signal)
+      .then(products => { if (!disposed) setCategories(groupProducts(products)) })
+      .catch(() => { if (!disposed) setCatalogError(true) })
+      .finally(() => {
+        window.clearTimeout(timeout)
+        if (!disposed) setCatalogLoading(false)
+      })
+    return () => {
+      disposed = true
+      window.clearTimeout(timeout)
+      controller.abort()
+    }
+  }, [catalogAttempt])
 
   const cartCount = useMemo(
     () => cart.reduce((total, item) => total + item.quantity, 0),
@@ -144,6 +128,18 @@ function App() {
     [cart],
   )
   const selectedCategory = categories.find((category) => category.id === activeModal)
+  const visibleProducts = useMemo(() => {
+    if (!selectedCategory) return []
+
+    const normalizedQuery = catalogQuery.trim().toLocaleLowerCase('es-MX')
+    if (!normalizedQuery) return selectedCategory.products
+
+    return selectedCategory.products.filter((product) =>
+      [product.name, product.code, product.department]
+        .filter(Boolean)
+        .some((value) => value?.toLocaleLowerCase('es-MX').includes(normalizedQuery)),
+    )
+  }, [catalogQuery, selectedCategory])
 
   useEffect(() => {
     document.body.style.overflow = activeModal || sidebarOpen ? 'hidden' : ''
@@ -190,10 +186,10 @@ function App() {
 
   const addToCart = (product: Product) => {
     setCart((current) => {
-      const item = current.find((candidate) => candidate.name === product.name)
+      const item = current.find((candidate) => candidate.id === product.id)
       if (!item) return [...current, { ...product, quantity: 1 }]
       return current.map((candidate) =>
-        candidate.name === product.name
+        candidate.id === product.id
           ? { ...candidate, quantity: candidate.quantity + 1 }
           : candidate,
       )
@@ -201,11 +197,11 @@ function App() {
     showToast(`🛒 Se agregó ${product.name} al carrito`)
   }
 
-  const removeFromCart = (productName: string) => {
+  const removeFromCart = (productId: string) => {
     setCart((current) =>
       current
         .map((item) =>
-          item.name === productName ? { ...item, quantity: item.quantity - 1 } : item,
+          item.id === productId ? { ...item, quantity: item.quantity - 1 } : item,
         )
         .filter((item) => item.quantity > 0),
     )
@@ -218,7 +214,7 @@ function App() {
     }
 
     const lines = cart.map(
-      (item) => `- ${item.quantity}x ${item.name} (${money.format(item.price * item.quantity)})`,
+      (item) => `- ${item.quantity}x ${item.name}${item.code ? ` [${item.code}]` : ''} (${money.format(item.price * item.quantity)})`,
     )
     const message = [
       'Hola *Expres Charlys*, quiero hacer el siguiente pedido:',
@@ -284,7 +280,9 @@ function App() {
           onClick={() => setSidebarOpen(false)}
           aria-label="Cerrar navegación"
         >
-          
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true" focusable="false">
+            <path d="m6 6 12 12M18 6 6 18" />
+          </svg>
         </button>
         <div className="nav-right">
           <ul className="nav-links">
@@ -336,7 +334,10 @@ function App() {
                   className="pcard"
                   type="button"
                   key={category.id}
-                  onClick={() => setActiveModal(category.id)}
+                  onClick={() => {
+                    setCatalogQuery('')
+                    setActiveModal(category.id)
+                  }}
                 >
                   <span className="icon">{category.icon}</span>
                   <span className="name">{category.name}</span>
@@ -501,6 +502,13 @@ function App() {
                 ref={menuCarouselRef}
                 aria-label="Carrusel de menús de Expres Charlys"
               >
+                {menusLoading && <p role="status">Cargando menús…</p>}
+                {menusError && (
+                  <div role="alert">
+                    <p>No pudimos cargar los menús. Intenta de nuevo.</p>
+                    <button type="button" onClick={() => setMenusAttempt(value => value + 1)}>Reintentar</button>
+                  </div>
+                )}
                 {menuImages.map((image, index) => (
                   <figure className="menu-card" key={image}>
                     <img
@@ -566,20 +574,40 @@ function App() {
             if (event.target === event.currentTarget) setActiveModal(null)
           }}
         >
-          <section className="modal-content" role="dialog" aria-modal="true" aria-labelledby="category-title">
+          <section className="modal-content catalog-modal-content" role="dialog" aria-modal="true" aria-labelledby="category-title">
             <button className="modal-close" type="button" onClick={() => setActiveModal(null)} aria-label="Cerrar">×</button>
             <h3 id="category-title">{selectedCategory.icon} {selectedCategory.name}</h3>
+            <div className="catalog-toolbar">
+              <label className="catalog-search">
+                <span className="sr-only">Buscar en {selectedCategory.name}</span>
+                <input
+                  type="search"
+                  value={catalogQuery}
+                  onChange={(event) => setCatalogQuery(event.target.value)}
+                  placeholder="Buscar por producto o código..."
+                />
+              </label>
+              <p>{catalogLoading ? 'Cargando productos…' : `${visibleProducts.length} de ${selectedCategory.products.length} productos`}</p>
+            </div>
+            {catalogError && <div className="catalog-status" role="alert">
+              <p>No pudimos cargar los productos. Inténtalo de nuevo.</p>
+              <button type="button" className="add-to-cart-btn" onClick={() => setCatalogAttempt(attempt => attempt + 1)}>Reintentar</button>
+            </div>}
             <div className="modal-products-grid">
-              {selectedCategory.products.map((product) => (
-                <article className="m-product" key={product.name}>
-                  <span>{product.icon}</span>
+              {visibleProducts.map((product) => (
+                <article className="m-product" key={product.id}>
+                  <ProductPhoto product={product} />
                   <div>{product.name}</div>
+                  {product.code && <small className="m-product-code">Código: {product.code}</small>}
                   <div className="m-price">{money.format(product.price)}</div>
                   <button className="add-to-cart-btn" type="button" onClick={() => addToCart(product)}>
                     Agregar +
                   </button>
                 </article>
               ))}
+              {visibleProducts.length === 0 && !catalogError && (
+                <p className="catalog-empty" role="status">{catalogLoading ? 'Cargando catálogo…' : catalogQuery ? 'No encontramos productos con esa búsqueda.' : 'Próximamente encontrarás productos aquí.'}</p>
+              )}
             </div>
           </section>
         </div>
@@ -601,13 +629,14 @@ function App() {
                 <p className="empty-cart-msg">Tu carrito está vacío.</p>
               ) : (
                 cart.map((item) => (
-                  <div className="cart-item" key={item.name}>
+                  <div className="cart-item" key={item.id}>
                     <div className="cart-item-info">
                       <h4>{item.name}</h4>
+                      {item.code && <small>Código: {item.code}</small>}
                       <p>{money.format(item.price)}</p>
                     </div>
                     <div className="cart-item-actions">
-                      <button className="qty-btn" type="button" onClick={() => removeFromCart(item.name)} aria-label={`Quitar un ${item.name}`}>−</button>
+                      <button className="qty-btn" type="button" onClick={() => removeFromCart(item.id)} aria-label={`Quitar un ${item.name}`}>−</button>
                       <span className="cart-quantity">{item.quantity}</span>
                       <button className="qty-btn" type="button" onClick={() => addToCart(item)} aria-label={`Agregar un ${item.name}`}>+</button>
                     </div>

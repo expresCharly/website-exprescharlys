@@ -1,0 +1,6 @@
+{
+  "7501045403908": { "status": "rejected", "reason": "La foto muestra una lata abierta y un fondo personal; conseguir una foto del envase cerrado." },
+  "7501055300075": { "status": "rejected", "reason": "La foto muestra el reverso de la lata; conseguir una vista frontal." },
+  "7500478005635": { "status": "rejected", "reason": "La foto muestra una caja con múltiples paquetes; conseguir una foto de la unidad de venta." },
+  "7500478021598": { "status": "approved", "reason": "Revisión visual: el paquete dice Giro y el código comercial coincide." }
+}

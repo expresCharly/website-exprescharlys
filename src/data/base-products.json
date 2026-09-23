@@ -1,0 +1,20 @@
+[
+  { "id": "abarrotes-pan-dulce", "category": "abarrotes", "icon": "🍞", "name": "Pan Dulce", "price": 15 },
+  { "id": "abarrotes-leche-entera", "category": "abarrotes", "icon": "🥛", "name": "Leche Entera", "price": 28.5 },
+  { "id": "abarrotes-huevos-12", "category": "abarrotes", "icon": "🥚", "name": "Huevos (12 pzs)", "price": 45 },
+  { "id": "abarrotes-jabon-barra", "category": "abarrotes", "icon": "🧼", "name": "Jabón de Barra", "price": 12 },
+  { "id": "abarrotes-sopa-enlatada", "category": "abarrotes", "icon": "🥫", "name": "Sopa Enlatada", "price": 22 },
+  { "id": "abarrotes-arroz-1kg", "category": "abarrotes", "icon": "🍚", "name": "Arroz (1 kg)", "price": 32 },
+  { "id": "farmacia-paracetamol", "category": "farmacia", "icon": "💊", "name": "Paracetamol 500 mg", "price": 35 },
+  { "id": "farmacia-curitas", "category": "farmacia", "icon": "🩹", "name": "Curitas", "price": 25 },
+  { "id": "farmacia-alcohol", "category": "farmacia", "icon": "🧴", "name": "Alcohol 96°", "price": 40 },
+  { "id": "farmacia-termometro", "category": "farmacia", "icon": "🌡️", "name": "Termómetro", "price": 80 },
+  { "id": "farmacia-jarabe-tos", "category": "farmacia", "icon": "🤧", "name": "Jarabe para la tos", "price": 95 },
+  { "id": "farmacia-ibuprofeno", "category": "farmacia", "icon": "💊", "name": "Ibuprofeno", "price": 45 },
+  { "id": "restaurante-hamburguesa-sencilla", "category": "restaurante", "icon": "🍔", "name": "Hamburguesa Sencilla", "price": 65 },
+  { "id": "restaurante-hamburguesa-especial", "category": "restaurante", "icon": "🍔", "name": "Hamburguesa Especial", "price": 85 },
+  { "id": "restaurante-papas-francesa", "category": "restaurante", "icon": "🍟", "name": "Papas a la Francesa", "price": 40 },
+  { "id": "restaurante-hot-dog", "category": "restaurante", "icon": "🌭", "name": "Hot Dog", "price": 35 },
+  { "id": "restaurante-refresco-cola", "category": "restaurante", "icon": "🥤", "name": "Refresco de Cola", "price": 25 },
+  { "id": "restaurante-rebanada-pastel", "category": "restaurante", "icon": "🍰", "name": "Rebanada de Pastel", "price": 55 }
+]
