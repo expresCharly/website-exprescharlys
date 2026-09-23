@@ -88,7 +88,8 @@ export function MenuQr() {
       <span className="dm-eyebrow">BIENVENIDO A TU PRÓXIMO ANTOJO</span>
       <h1>Elige. Antójate.<br />Disfruta.</h1>
       <p>Escanea y descubre nuestro menú.</p>
-      <img className="dm-qr-code" src="/menu-qr.svg" width="320" height="320" alt="Código QR para abrir el menú digital de Exprés Charlys" />
+      {/* El PNG evita diferencias de escala al rasterizar SVG en navegadores móviles. */}
+      <img className="dm-qr-code" src="/menu-qr.png" width="1200" height="1200" alt="Código QR para abrir el menú digital de Exprés Charlys" />
       <strong>Abre la cámara de tu celular<br />y apunta al código QR.</strong>
       <a href="https://website-exprescharlys.vercel.app/menu">website-exprescharlys.vercel.app/menu</a>
       <small>EXPRÉS CHARLYS · RÁPIDO, SABROSO, A DOMICILIO</small>
