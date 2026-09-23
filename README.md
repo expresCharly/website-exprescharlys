@@ -20,7 +20,7 @@ npm run build
 
 ### Menú digital y QR
 
-`/menu` muestra una carta independiente para celular, con navegación entre páginas,
+`/menu` muestra una carta independiente para celular, con desplazamiento vertical continuo, carga de imágenes al acercarse a ellas,
 ampliación de imágenes y acceso a pedidos por WhatsApp. `/menu/qr` muestra la
 tarjeta con el botón Compartir. Este genera un PNG de la tarjeta completa a triple
 resolución, espera las imágenes y fuentes, y dibuja el logo y el QR originales
@@ -163,3 +163,4 @@ después de ejecutar el SQL y configurar las variables.
 Referencias: [Supabase API Keys](https://supabase.com/docs/guides/getting-started/api-keys),
 [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security),
 [Open Food Facts API](https://openfoodfacts.github.io/documentation/docs/Product-Opener/api/).
+
