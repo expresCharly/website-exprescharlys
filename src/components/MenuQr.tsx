@@ -25,30 +25,16 @@ export function MenuQr() {
         try {
           await document.fonts.ready
           await Promise.all(Array.from(element.querySelectorAll('img'), image => image.decode()))
-          const { toCanvas } = await import('html-to-image')
+          const { default: html2canvas } = await import('html2canvas')
           if (current !== version) return
-          const canvas = await toCanvas(element, { pixelRatio: 3, preferredFontFormat: 'woff2' })
-          // Dibujar los originales directamente evita imágenes omitidas por el
-          // renderizado SVG/foreignObject de algunos navegadores.
-          const context = canvas.getContext('2d')
-          if (!context) throw new Error('No se pudo preparar el lienzo')
-          const bounds = element.getBoundingClientRect()
-          context.save()
-          context.scale(canvas.width / bounds.width, canvas.height / bounds.height)
-          for (const image of element.querySelectorAll('img')) {
-            const rect = image.getBoundingClientRect()
-            const x = rect.left - bounds.left
-            const y = rect.top - bounds.top
-            context.save()
-            context.beginPath()
-            context.roundRect(x, y, rect.width, rect.height, parseFloat(getComputedStyle(image).borderRadius) || 0)
-            context.clip()
-            context.fillStyle = getComputedStyle(element).backgroundColor
-            context.fillRect(x, y, rect.width, rect.height)
-            context.drawImage(image, x, y, rect.width, rect.height)
-            context.restore()
-          }
-          context.restore()
+          const canvas = await html2canvas(element, {
+            scale: 3,
+            backgroundColor: getComputedStyle(element).backgroundColor,
+            // Renderizar el HTML completo; el método SVG omitía fondo y texto.
+            foreignObjectRendering: false,
+            useCORS: true,
+            logging: false,
+          })
           const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, 'image/png'))
           if (!blob) throw new Error('No se pudo generar la imagen')
           if (current !== version) return
@@ -109,3 +95,5 @@ export function MenuQr() {
     </article>
   </main>
 }
+
+

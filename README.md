@@ -23,8 +23,8 @@ npm run build
 `/menu` muestra una carta independiente para celular, con desplazamiento vertical continuo, carga de imágenes al acercarse a ellas,
 ampliación de imágenes y acceso a pedidos por WhatsApp. `/menu/qr` muestra la
 tarjeta con el botón Compartir. Este genera un PNG de la tarjeta completa a triple
-resolución, espera las imágenes y fuentes, y dibuja el logo y el QR originales
-directamente en el lienzo para evitar imágenes omitidas en la exportación.
+resolución y espera las imágenes y fuentes. Usa html2canvas para renderizar la
+tarjeta completa con fondo opaco, textos, logo y QR, sin SVG foreignObject.
 En teléfonos y tabletas abre el diálogo de compartir archivos cuando está
 disponible. En PC y navegadores sin esa opción descarga el PNG directamente.
 Cancelar el diálogo no inicia una descarga. La portada enlaza al menú digital.
