@@ -23,8 +23,10 @@ npm run build
 `/menu` muestra una carta independiente para celular, con navegación entre páginas,
 ampliación de imágenes y acceso a pedidos por WhatsApp. `/menu/qr` muestra la
 tarjeta con el botón Compartir. Este genera un PNG de la tarjeta completa a triple
-resolución, espera las imágenes y fuentes, y abre el diálogo de compartir archivos
-del dispositivo cuando está disponible. En otros navegadores descarga el PNG.
+resolución, espera las imágenes y fuentes, y dibuja el logo y el QR originales
+directamente en el lienzo para evitar imágenes omitidas en la exportación.
+En teléfonos y tabletas abre el diálogo de compartir archivos cuando está
+disponible. En PC y navegadores sin esa opción descarga el PNG directamente.
 Cancelar el diálogo no inicia una descarga. La portada enlaza al menú digital.
 
 El QR apunta a `https://website-exprescharlys.vercel.app/menu`; sus archivos están

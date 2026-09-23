@@ -25,9 +25,31 @@ export function MenuQr() {
         try {
           await document.fonts.ready
           await Promise.all(Array.from(element.querySelectorAll('img'), image => image.decode()))
-          const { toBlob } = await import('html-to-image')
+          const { toCanvas } = await import('html-to-image')
           if (current !== version) return
-          const blob = await toBlob(element, { pixelRatio: 3, preferredFontFormat: 'woff2' })
+          const canvas = await toCanvas(element, { pixelRatio: 3, preferredFontFormat: 'woff2' })
+          // Dibujar los originales directamente evita imágenes omitidas por el
+          // renderizado SVG/foreignObject de algunos navegadores.
+          const context = canvas.getContext('2d')
+          if (!context) throw new Error('No se pudo preparar el lienzo')
+          const bounds = element.getBoundingClientRect()
+          context.save()
+          context.scale(canvas.width / bounds.width, canvas.height / bounds.height)
+          for (const image of element.querySelectorAll('img')) {
+            const rect = image.getBoundingClientRect()
+            const x = rect.left - bounds.left
+            const y = rect.top - bounds.top
+            context.save()
+            context.beginPath()
+            context.roundRect(x, y, rect.width, rect.height, parseFloat(getComputedStyle(image).borderRadius) || 0)
+            context.clip()
+            context.fillStyle = getComputedStyle(element).backgroundColor
+            context.fillRect(x, y, rect.width, rect.height)
+            context.drawImage(image, x, y, rect.width, rect.height)
+            context.restore()
+          }
+          context.restore()
+          const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, 'image/png'))
           if (!blob) throw new Error('No se pudo generar la imagen')
           if (current !== version) return
           setFile(new File([blob], 'menu-expres-charlys.png', { type: 'image/png' }))
@@ -60,7 +82,9 @@ export function MenuQr() {
     }
     try {
       // Preparar antes conserva el gesto del usuario al compartir desde el celular.
-      if (navigator.canShare?.({ files: [file] })) {
+      const mobileDevice = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+      if (mobileDevice && navigator.canShare?.({ files: [file] })) {
         await navigator.share({ files: [file], title: 'Menú de Exprés Charlys' })
         setStatus('')
       } else download()
