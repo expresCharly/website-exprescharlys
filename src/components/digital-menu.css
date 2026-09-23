@@ -15,7 +15,9 @@
 .dm-brand small { display:block; font-size:11px; color:#bcb5a9; font-weight:400; margin-top:5px; letter-spacing:0; }
 .dm-home,.dm-footer a { color:#ffd000; text-decoration:none; font-size:14px; }
 .dm-main { max-width:1000px; margin:auto; padding:40px 24px 24px; }
-.dm-intro { text-align:center; margin-bottom:34px; }
+.dm-intro { text-align:center; margin-bottom:20px; }
+.dm-share-qr { display:flex; width:fit-content; align-items:center; justify-content:center; min-height:44px; margin:20px auto 0; padding:12px 24px; border:1px solid var(--yellow); border-radius:10px; background:var(--yellow); color:var(--black); font-size:14px; font-weight:700; text-decoration:none; }
+.dm-share-qr:hover { background:#ffe052; }
 .dm-eyebrow { color:#ffd000; font-size:11px; font-weight:700; letter-spacing:.2em; }
 .dm-intro h1 { font-family:'Barlow Condensed',sans-serif; font-size:clamp(36px,7vw,64px); line-height:1.05; margin:12px 0; }
 .dm-intro p,.dm-hint { color:#bcb5a9; font-size:15px; line-height:1.6; }
@@ -57,3 +59,4 @@
 .dm-qr-card small { display:block; padding-top:16px; border-top:1px solid #84600725; font-size:9px; line-height:1.6; letter-spacing:.08em; }
 @media(max-width:600px) { .dm-header { padding:14px 16px; }.dm-brand { font-size:14px; }.dm-brand img { width:44px; height:44px; }.dm-home { font-size:12px; }.dm-main { padding:30px 14px 16px; }.dm-order { flex-direction:column; align-items:stretch; padding:22px; }.dm-order a { text-align:center; }.dm-footer { flex-direction:column; align-items:center; text-align:center; }.dm-qr-card { padding:24px; } }
 @media print { @page { margin:12mm; }.dm-qr-page { background:white; padding:0; }.dm-qr-actions { display:none; }.dm-qr-card { border:1px solid #ddd; break-inside:avoid; print-color-adjust:exact; } }
+

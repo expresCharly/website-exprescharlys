@@ -53,7 +53,7 @@ export function DigitalMenu() {
         <a className="dm-home" href="/">Ir al inicio ↗</a>
       </header>
       <main className="dm-main">
-        <div className="dm-intro"><span className="dm-eyebrow">HECHO PARA DISFRUTAR</span><h1>¿Qué se te antoja hoy?</h1><p>Recorre nuestra carta y encuentra tu próximo favorito.</p><p className="dm-hint">Desliza hacia abajo · Toca cualquier imagen para ampliarla</p></div>
+        <div className="dm-intro"><span className="dm-eyebrow">HECHO PARA DISFRUTAR</span><h1>¿Qué se te antoja hoy?</h1><p>Recorre nuestra carta y encuentra tu próximo favorito.</p><p className="dm-hint">Desliza hacia abajo · Toca cualquier imagen para ampliarla</p><a className="dm-share-qr" href="/menu/qr">Compartir QR</a></div>
         {loading && <div className="dm-status" role="status">Preparando el menú…</div>}
         {error && <div className="dm-status" role="alert"><p>No pudimos cargar el menú.</p><button onClick={() => setAttempt(value => value + 1)}>Intentar de nuevo</button></div>}
         {!loading && !error && <ol className="dm-letter" aria-label="Carta completa de Exprés Charlys">
