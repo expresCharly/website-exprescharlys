@@ -227,7 +227,7 @@ function App() {
     ].join('\n')
 
     window.open(
-      `https://wa.me/523921064092?text=${encodeURIComponent(message)}`,
+      `https://wa.me/523926881753?text=${encodeURIComponent(message)}`,
       '_blank',
       'noopener,noreferrer',
     )
@@ -246,7 +246,7 @@ function App() {
     <>
       <a
         className="whatsapp-float"
-        href="https://wa.me/523921064092"
+        href="https://wa.me/523926881753"
         target="_blank"
         rel="noreferrer"
         title="Escríbenos por WhatsApp"
