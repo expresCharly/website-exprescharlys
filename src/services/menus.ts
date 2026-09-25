@@ -1,4 +1,6 @@
-const menuSource = 'https://raw.githubusercontent.com/expresCharly/restaurant-menus/main/'
+const menuSource = import.meta.env.DEV
+  ? new URL('/__shared-menus/', window.location.origin).href
+  : 'https://raw.githubusercontent.com/expresCharly/restaurant-menus/main/'
 
 export async function readMenus(signal: AbortSignal): Promise<string[]> {
   const response = await fetch(`${menuSource}index.html`, { signal, cache: 'no-cache' })

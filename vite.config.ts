@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
+import sharedMenus from './scripts/shared-menus.mjs'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_')
@@ -11,7 +12,7 @@ export default defineConfig(({ mode }) => {
     if (!isAnon) throw new Error(`${name} debe contener una clave pública publishable o anon. Se detuvo la compilación para evitar publicar una clave privada.`)
   }
   return {
-    plugins: [react()],
+    plugins: [react(), sharedMenus()],
     server: {
       port: 5173,
       open: true,

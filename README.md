@@ -37,6 +37,13 @@ Publica esta versión en Vercel antes de distribuir o imprimir el código.
 
 ### Fuente de imágenes
 
+Con `npm run dev`, Vite lee directamente `../Pagina para mostrar los menus/index.html`
+y sus imágenes en `imgs`, a través de `/__shared-menus/`. El carrusel y la carta
+digital usan esta misma fuente local, sin copiar archivos. Los cambios en esa
+carpeta recargan la vista; `menu_3-6.png` sigue fuera porque no está en la lista.
+Si la carpeta no está disponible se muestra un error, sin ocultarlo con copias viejas.
+En producción y `npm run preview` se usa la versión publicada en GitHub.
+
 El carrusel consulta la lista `const images` de `index.html` en la rama `main` de
 https://github.com/expresCharly/restaurant-menus y carga las imágenes de ese mismo
 repositorio. No utiliza las copias antiguas de `imgs/menus` de este sitio.
