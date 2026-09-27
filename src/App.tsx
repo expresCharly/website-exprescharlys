@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 import logoUrl from '../imgs/logo.png'
-import kidsAreaOneUrl from '../imgs/area-de-ninos.jpeg'
-import kidsAreaTwoUrl from '../imgs/area-de-ninos-2.jpeg'
+import barUrl from '../imgs/Barra.png'
 import { groupProducts, localCategories } from './data/categories'
 import { hasSupabaseConfiguration, supabase } from './lib/supabase'
 import { readProductPages } from './services/catalog-query'
@@ -24,11 +23,6 @@ const money = new Intl.NumberFormat('es-MX', {
   style: 'currency',
   currency: 'MXN',
 })
-
-const kidsAreaImages = [
-  { src: kidsAreaOneUrl, alt: 'Área infantil de Expres Charlys con alberca de pelotas' },
-  { src: kidsAreaTwoUrl, alt: 'Segunda vista del área infantil de Expres Charlys' },
-]
 
 const aboutImages = Array.from({ length: 11 }, (_, index) => ({
   src: new URL(`../imgs/conocenos/${index + 1}.jpeg`, import.meta.url).href,
@@ -56,7 +50,6 @@ function App() {
   const [activeModal, setActiveModal] = useState<ModalId>(null)
   const [cart, setCart] = useState<CartItem[]>([])
   const [toasts, setToasts] = useState<Toast[]>([])
-  const [kidsSlide, setKidsSlide] = useState(0)
   const [aboutSlide, setAboutSlide] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [catalogQuery, setCatalogQuery] = useState('')
@@ -155,16 +148,6 @@ function App() {
       document.removeEventListener('keydown', closeOnEscape)
     }
   }, [activeModal, sidebarOpen])
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-    const interval = window.setInterval(() => {
-      setKidsSlide((current) => (current + 1) % kidsAreaImages.length)
-    }, 5000)
-
-    return () => window.clearInterval(interval)
-  }, [])
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -423,57 +406,15 @@ function App() {
 
               <article className="kids-card">
                 <div className="kids-card-heading">
-                  <span>🎈 Diversión para los pequeños</span>
-                  <h2>Área de recreación para niños</h2>
-                  <p>Un espacio pensado para que disfruten durante tu visita.</p>
+                  <h2>🍻 Bar 🍸</h2>
+                  <p>Un espacio para relajarte y disfrutar durante tu visita.</p>
                 </div>
-                <div
-                  className="kids-carousel"
-                  role="region"
-                  aria-roledescription="carrusel"
-                  aria-label="Fotos del área infantil"
-                >
+                <div className="kids-carousel">
                   <img
-                    key={kidsAreaImages[kidsSlide].src}
-                    src={kidsAreaImages[kidsSlide].src}
-                    alt={kidsAreaImages[kidsSlide].alt}
+                    src={barUrl}
+                    alt="Bar de Expres Charlys"
                     className="kids-carousel-image"
                   />
-                  <button
-                    className="carousel-arrow carousel-arrow-prev"
-                    type="button"
-                    onClick={() =>
-                      setKidsSlide(
-                        (current) =>
-                          (current - 1 + kidsAreaImages.length) % kidsAreaImages.length,
-                      )
-                    }
-                    aria-label="Ver imagen anterior"
-                  >
-                    ‹
-                  </button>
-                  <button
-                    className="carousel-arrow carousel-arrow-next"
-                    type="button"
-                    onClick={() =>
-                      setKidsSlide((current) => (current + 1) % kidsAreaImages.length)
-                    }
-                    aria-label="Ver imagen siguiente"
-                  >
-                    ›
-                  </button>
-                  <div className="carousel-dots" aria-label="Elegir imagen">
-                    {kidsAreaImages.map((image, index) => (
-                      <button
-                        className={`carousel-dot${index === kidsSlide ? ' active' : ''}`}
-                        type="button"
-                        key={image.src}
-                        onClick={() => setKidsSlide(index)}
-                        aria-label={`Ver imagen ${index + 1}`}
-                        aria-current={index === kidsSlide ? 'true' : undefined}
-                      />
-                    ))}
-                  </div>
                 </div>
               </article>
             </div>
