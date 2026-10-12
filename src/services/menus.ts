@@ -3,7 +3,10 @@ const menuSource = import.meta.env.DEV
   : 'https://raw.githubusercontent.com/expresCharly/restaurant-menus/main/'
 
 export async function readMenus(signal: AbortSignal): Promise<string[]> {
-  const response = await fetch(`${menuSource}index.html`, { signal, cache: 'no-cache' })
+  // La CDN de GitHub puede conservar una lista anterior aunque fetch revalide.
+  const listUrl = new URL('index.html', menuSource)
+  listUrl.searchParams.set('refresh', Date.now().toString())
+  const response = await fetch(listUrl.href, { signal, cache: 'no-store' })
   if (!response.ok) throw new Error('No se pudo consultar el menú')
 
   // Leer la lista del proyecto original como texto, sin ejecutar su JavaScript.
