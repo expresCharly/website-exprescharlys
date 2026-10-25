@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import logo from '../../imgs/logo.png'
 import { readMenus } from '../services/menus'
+import { RestaurantContact } from './RestaurantContact'
 import './digital-menu.css'
 
 function MenuSheet({ src, index, total, onExpand }: { src: string; index: number; total: number; onExpand: () => void }) {
@@ -59,7 +60,7 @@ export function DigitalMenu() {
         {!loading && !error && <ol className="dm-letter" aria-label="Carta completa de Exprés Charlys">
           {images.map((src, index) => <MenuSheet key={src} src={src} index={index} total={images.length} onExpand={() => setSelected(index)} />)}
         </ol>}
-        <aside className="dm-order"><div><h2>Tu antojo, a domicilio.</h2><p>Haz tu pedido por WhatsApp y disfruta donde estés.</p></div><a href="https://wa.me/523926881753?text=Hola%2C%20quiero%20hacer%20un%20pedido%20del%20men%C3%BA" target="_blank" rel="noreferrer">Pedir por WhatsApp ↗</a></aside>
+        <RestaurantContact />
       </main>
       <footer className="dm-footer"><span>Exprés Charlys · Jazmín 204, esquina con Pípila</span><a href="/menu/qr">Compartir menú · QR</a></footer>
       {selected !== null && <dialog ref={dialog} className="dm-dialog" aria-label={`Página ${selected + 1} ampliada`} onCancel={() => setSelected(null)} onClose={() => setSelected(null)}><div className="dm-dialog-bar"><span>Página {selected + 1}</span><button autoFocus onClick={() => setSelected(null)} aria-label="Cerrar imagen ampliada">Cerrar ×</button></div><div className="dm-zoom-scroll"><img src={images[selected]} alt={`Menú ampliado, página ${selected + 1}`} /></div></dialog>}

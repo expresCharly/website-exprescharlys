@@ -21,7 +21,7 @@ npm run build
 ### Menú digital y QR
 
 `/menu` muestra una carta independiente para celular, con desplazamiento vertical continuo, carga de imágenes al acercarse a ellas,
-ampliación de imágenes y acceso a pedidos por WhatsApp. `/menu/qr` muestra la
+ampliación de imágenes y acceso a pedidos del restaurante por llamada al 3926881753. `/menu/qr` muestra la
 tarjeta con el botón Compartir. Este genera un PNG de la tarjeta completa a triple
 resolución y espera las imágenes y fuentes. Usa html2canvas para renderizar la
 tarjeta completa con fondo opaco, textos, logo y QR, sin SVG foreignObject.
@@ -92,7 +92,10 @@ recupera productos eliminados desde el catálogo local.
 Los visitantes tienen únicamente lectura de productos activos. Para cambiar
 precios, existencias o fotos se utiliza el Dashboard de Supabase. No se ha añadido
 un panel de administración a la página ni permisos de escritura para visitantes.
-El stock es informativo: los pedidos actuales siguen enviándose por WhatsApp y
+El restaurante recibe pedidos por llamada al 3926881753; abarrotes y farmacia
+conservan su pedido por WhatsApp. En carritos mixtos, los artículos del restaurante
+se piden por separado y se excluyen del mensaje y total de WhatsApp.
+El stock es informativo y
 esta conexión no implementa reservas ni sincronización con un punto de venta.
 
 ## Conseguir imágenes por código

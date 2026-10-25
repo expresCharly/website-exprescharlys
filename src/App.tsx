@@ -3,6 +3,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import logoUrl from '../imgs/logo.png'
 import barUrl from '../imgs/Barra.png'
 import { groupProducts, localCategories } from './data/categories'
+import { restaurantPhone, restaurantPhoneHref } from './data/contact'
+import { PhoneIcon, RestaurantContact } from './components/RestaurantContact'
 import { hasSupabaseConfiguration, supabase } from './lib/supabase'
 import { readProductPages } from './services/catalog-query'
 import { readMenus } from './services/menus'
@@ -121,6 +123,8 @@ function App() {
     [cart],
   )
   const selectedCategory = categories.find((category) => category.id === activeModal)
+  const storeCart = cart.filter(item => item.category !== 'restaurante')
+  const hasRestaurantItems = cart.some(item => item.category === 'restaurante')
   const visibleProducts = useMemo(() => {
     if (!selectedCategory) return []
 
@@ -191,12 +195,12 @@ function App() {
   }
 
   const checkout = () => {
-    if (cart.length === 0) {
+    if (storeCart.length === 0) {
       showToast('Tu carrito está vacío.')
       return
     }
 
-    const lines = cart.map(
+    const lines = storeCart.map(
       (item) => `- ${item.quantity}x ${item.name}${item.code ? ` [${item.code}]` : ''} (${money.format(item.price * item.quantity)})`,
     )
     const message = [
@@ -204,7 +208,7 @@ function App() {
       '',
       ...lines,
       '',
-      `*Total: ${money.format(cartTotal)}*`,
+      `*Total: ${money.format(storeCart.reduce((total, item) => total + item.price * item.quantity, 0))}*`,
       '',
       'Quedo atento para coordinar la entrega.',
     ].join('\n')
@@ -228,14 +232,12 @@ function App() {
   return (
     <>
       <a
-        className="whatsapp-float"
-        href="https://wa.me/523926881753"
-        target="_blank"
-        rel="noreferrer"
-        title="Escríbenos por WhatsApp"
-        aria-label="Escríbenos por WhatsApp"
+        className="restaurant-float"
+        href={restaurantPhoneHref}
+        title={`Restaurante: llama al ${restaurantPhone} para ordenar`}
+        aria-label={`Restaurante: llama al ${restaurantPhone} para ordenar`}
       >
-        💬
+        <PhoneIcon /><span>Restaurante</span>
       </a>
 
       <button
@@ -429,6 +431,7 @@ function App() {
               <div className="section-label">🔥 Disponible todos los días</div>
               <h2 className="section-title">Comida Caliente</h2>
               <a href="/menu" className="btn btn-yellow">Abrir menú digital ↗</a>
+              <RestaurantContact />
             </div>
             <div className="menu-carousel-shell reveal">
               <button
@@ -486,6 +489,7 @@ function App() {
                   <strong>¡Ya contamos con servicio a domicilio!</strong><br />
                   Rápido, fácil y directo hasta tu casa.
                 </p>
+                <RestaurantContact compact />
               </div>
               <div className="reveal">
                 <div className="delivery-badge">
@@ -505,6 +509,7 @@ function App() {
           <span>📍 Jazmín 204 Esquina con Pípila</span>
           <span>🎉 ¡Ya estamos abiertos!</span>
         </div>
+        <RestaurantContact compact />
         <p className="copy">© {new Date().getFullYear()} Expres Charlys. Todos los derechos reservados.</p>
       </footer>
 
@@ -519,6 +524,7 @@ function App() {
           <section className="modal-content catalog-modal-content" role="dialog" aria-modal="true" aria-labelledby="category-title">
             <button className="modal-close" type="button" onClick={() => setActiveModal(null)} aria-label="Cerrar">×</button>
             <h3 id="category-title">{selectedCategory.icon} {selectedCategory.name}</h3>
+            {selectedCategory.id === 'restaurante' && <RestaurantContact compact />}
             <div className="catalog-toolbar">
               <label className="catalog-search">
                 <span className="sr-only">Buscar en {selectedCategory.name}</span>
@@ -588,9 +594,11 @@ function App() {
             </div>
             <div className="cart-footer">
               <div className="cart-total">Total: <span>{money.format(cartTotal)}</span></div>
-              <button className="checkout-btn" type="button" onClick={checkout}>
+              {hasRestaurantItems && <RestaurantContact compact />}
+              {hasRestaurantItems && storeCart.length > 0 && <p className="restaurant-cart-note">Los productos del restaurante se piden por llamada. El pedido por WhatsApp incluye únicamente abarrotes y farmacia.</p>}
+              {(storeCart.length > 0 || cart.length === 0) && <button className="checkout-btn" type="button" onClick={checkout}>
                 Hacer Pedido por WhatsApp 📲
-              </button>
+              </button>}
             </div>
           </section>
         </div>

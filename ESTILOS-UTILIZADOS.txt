@@ -1,0 +1,136 @@
+ESTILOS UTILIZADOS — EXPRES CHARLYS
+
+DISEÑO GENERAL
+- Tema oscuro con amarillo como color principal de acento.
+- Títulos altos y condensados.
+- Botones y etiquetas en mayúsculas, con letras espaciadas.
+- Tarjetas con esquinas redondeadas, bordes de color y sombras.
+- Fondos con franjas diagonales y resplandores suaves.
+
+TIPOGRAFÍAS
+- Bebas Neue: títulos principales, títulos de ventanas y total del carrito.
+- Barlow Condensed: botones, navegación, etiquetas, productos y títulos del menú digital y QR.
+- Barlow: párrafos y textos generales.
+- Fuentes cargadas desde Google Fonts.
+- Pesos cargados: Barlow 400, 600 y 700; Barlow Condensed 400, 600, 700 y 900; Bebas Neue regular. Algunas reglas también solicitan peso 800.
+- Fuente alternativa: sans-serif.
+
+COLORES PRINCIPALES
+- Amarillo #FFD000: botones, precios, etiquetas, bordes y detalles.
+- Negro #0D0D0D: fondo principal y texto sobre amarillo.
+- Negro #161616: tarjetas y ventanas emergentes.
+- Blanco #FFFFFF: títulos y textos principales.
+- Rojo #CC1C1C: contador del carrito y algunos controles al pasar el cursor.
+- Verde #25D366: botón de pedido por WhatsApp.
+- Verde #1EBC5A: botón de WhatsApp al pasar el cursor.
+- Amarillo #E6BB00: botón Agregar al pasar el cursor.
+- Azul #0F4C81 a #1A7AB8: degradado de la tarjeta Bar.
+
+COLORES DE APOYO
+- #111111: fondo de productos.
+- #070707: pie de página.
+- #080808: fondo de imágenes de menús y carrusel Conócenos.
+- #151515: buscador.
+- #1C1C1C: tarjetas del catálogo.
+- #252525: fondo de productos sin fotografía.
+- #AAAAAA: créditos de fotografías.
+- Blanco con distintas transparencias: descripciones, códigos, textos secundarios y bordes.
+- Amarillo con distintas transparencias: bordes, fondos sutiles, resplandores y sombras.
+- Negro con distintas transparencias: sombras y fondos superpuestos.
+
+COLORES DEL MENÚ DIGITAL Y QR
+- #FFF8EB: texto principal cálido.
+- #BCB5A9: texto secundario.
+- #24221D: fondo del visor del menú.
+- #28241C: botones secundarios.
+- #675E44: bordes de botones secundarios.
+- #211E15: panel de pedido.
+- #14110A: texto del botón de pedido.
+- #FFE052: botón para compartir QR al pasar el cursor.
+- #161410: fondo de la página QR.
+- #FFF6E5: fondo crema de la tarjeta QR.
+- #17130E: texto oscuro de la tarjeta QR.
+- #846007: etiquetas de la tarjeta QR.
+- #584617: enlace de la tarjeta QR.
+- #DDDDDD: borde de la tarjeta QR al imprimir.
+
+TAMAÑOS DE TEXTO
+- Títulos de sección: entre 3rem y 5rem, adaptables al ancho de pantalla.
+- Título Conócenos: entre 2.7rem y 4.4rem.
+- Título Bar: entre 2.2rem y 3.5rem.
+- Títulos de ventanas emergentes: 2.5rem.
+- Botones y etiquetas principales: 1.1rem.
+- Navegación, categorías y precios: 1.2rem.
+- Descripción Conócenos: 1.08rem.
+- Descripción de entrega a domicilio: 1.3rem.
+- Total del carrito: 2rem.
+- Título del menú digital: entre 36px y 64px.
+- Título de la tarjeta QR: entre 32px y 44px.
+- Párrafos del menú digital y QR: 15px.
+- Interlineado: cercano a 1 en títulos grandes; entre 1.5 y 1.7 en párrafos.
+
+DISTRIBUCIÓN Y ESPACIADOS
+- Contenedor principal: máximo 1200px, centrado.
+- Contenido del menú digital: máximo 1000px.
+- Cabecera del menú digital: máximo 1120px.
+- Tarjeta QR: máximo 480px.
+- Portada: altura mínima de una pantalla.
+- Secciones: espacio interior de 4.5rem vertical y 1.5rem horizontal.
+- Secciones en celular: 3.5rem vertical y 1.1rem horizontal.
+- Separaciones frecuentes: 0.5rem, 1rem, 1.5rem, 2rem y 2.5rem.
+- Categorías: cuadrícula con columnas de mínimo 200px.
+- Productos del catálogo: cuadrícula con columnas de mínimo 140px.
+- Conócenos y Bar: dos columnas en escritorio y una en pantallas pequeñas.
+- Menús: carrusel horizontal con ajuste de desplazamiento a cada tarjeta.
+- Adaptación de diseño en anchos de 900px, 700px y 600px.
+
+BOTONES Y BORDES
+- Botón principal: fondo amarillo y texto negro.
+- Botón secundario: fondo transparente, texto y borde amarillos.
+- Botón de pedido por WhatsApp: fondo verde y texto blanco.
+- Bordes habituales: de 1px a 3px.
+- Botón principal: esquinas de 6px.
+- Controles y campos: esquinas de 4px a 10px.
+- Tarjetas: esquinas de 12px a 20px.
+- Etiquetas de servicios: forma de cápsula.
+- Flechas y cierres: algunos controles circulares.
+- Separador entre secciones: línea de 5px con degradado amarillo hacia transparente.
+
+SOMBRAS Y EFECTOS
+- Sombras negras difuminadas debajo de tarjetas, imágenes y ventanas.
+- Sombra amarilla desplazada en botones principales.
+- Resplandor amarillo alrededor de tarjetas al pasar el cursor.
+- Botones que se desplazan ligeramente o aumentan de tamaño al pasar el cursor.
+- Tarjetas que se elevan entre 5px y 8px al pasar el cursor.
+- Apariciones con desvanecimiento y desplazamiento vertical.
+- Transiciones habituales de 0.15 a 0.3 segundos.
+- Animación de imágenes del carrusel: 0.45 segundos.
+- Aparición de secciones al desplazarse: 0.65 segundos.
+- Animaciones de portada: 0.8 segundos.
+- Fondo oscurecido y desenfocado al abrir navegación o ventanas emergentes.
+- Contornos blancos o amarillos para señalar el foco del teclado.
+
+IMÁGENES E ICONOS
+- Logo principal: imgs/logo.png.
+- Logo sin fondo para QR: imgs/logo_sin_fondo.png.
+- Fotografía del Bar: imgs/Barra.png.
+- Fotografías de Conócenos: imgs/conocenos/1.jpeg a 11.jpeg.
+- Fotografías de productos sobre fondo blanco cuando están disponibles.
+- Imágenes de menús y productos ajustadas para mostrarse completas, conservando proporciones.
+- Emojis para categorías, servicios y algunos botones.
+- SVG para algunos controles de navegación.
+
+ELEMENTOS VISUALES PRESENTES
+- Navegación lateral desplegable.
+- Portada con logo y botones.
+- Tarjetas de categorías y productos.
+- Carruseles de imágenes y menús.
+- Tarjetas Conócenos y Bar.
+- Sección amarilla de entrega a domicilio.
+- Ventanas emergentes de catálogo y carrito.
+- Buscador de productos.
+- Contador de carrito, controles de cantidad y precios destacados.
+- Avisos amarillos de confirmación.
+- Menú digital con ampliación de imágenes.
+- Tarjeta QR de fondo crema.
+- Pie de página oscuro con borde superior amarillo.
