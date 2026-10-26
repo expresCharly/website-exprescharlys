@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 import logoUrl from '../imgs/logo.png'
-import barUrl from '../imgs/Barra.png'
+import barCounterUrl from '../imgs/bar-barra.png'
+import barSeatingUrl from '../imgs/bar-asientos.png'
 import { groupProducts, localCategories } from './data/categories'
 import { restaurantPhone, restaurantPhoneHref } from './data/contact'
 import { PhoneIcon, RestaurantContact } from './components/RestaurantContact'
@@ -31,6 +32,11 @@ const aboutImages = Array.from({ length: 11 }, (_, index) => ({
   alt: `Instalaciones de Expres Charlys, fotografía ${index + 1}`,
 }))
 
+const barImages = [
+  { src: barCounterUrl, alt: 'Barra del bar con cuatro bancos negros y pared de follaje' },
+  { src: barSeatingUrl, alt: 'Área de asientos del bar con barra esquinera y bancos negros' },
+]
+
 function useRevealOnScroll() {
   useEffect(() => {
     const elements = document.querySelectorAll<HTMLElement>('.reveal')
@@ -53,6 +59,7 @@ function App() {
   const [cart, setCart] = useState<CartItem[]>([])
   const [toasts, setToasts] = useState<Toast[]>([])
   const [aboutSlide, setAboutSlide] = useState(0)
+  const [barSlide, setBarSlide] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [catalogQuery, setCatalogQuery] = useState('')
   const [categories, setCategories] = useState(() => hasSupabaseConfiguration ? groupProducts([]) : localCategories)
@@ -336,8 +343,7 @@ function App() {
 
         <section className="section kids-section reveal" id="conocenos">
           <div className="container">
-            <div className="kids-about-grid">
-              <article className="about-card">
+            <article className="about-card">
                 <div>
                   <div className="about-label">👋 Conócenos</div>
                   <h2 className="about-title">Todo lo que necesitas, cerca de ti</h2>
@@ -347,6 +353,12 @@ function App() {
                     encuentres calidad, rapidez y atención cercana cada vez que nos visites.
                   </p>
                 </div>
+              <div className="kids-about-grid">
+                <div className="about-gallery">
+                  <div className="kids-card-heading">
+                    <h3>Nuestras instalaciones</h3>
+                    <p>Conoce el espacio que tenemos para ti.</p>
+                  </div>
                 <div
                   className="about-carousel"
                   role="region"
@@ -395,31 +407,69 @@ function App() {
                     ))}
                   </div>
                 </div>
-                <div className="about-features" aria-label="Nuestros servicios">
-                  <span>🛒 Abarrotes</span>
-                  <span>💊 Farmacia</span>
-                  <span>🍽️ Restaurante</span>
                 </div>
-                <div className="about-location">
-                  <span aria-hidden="true">📍</span>
-                  <span>Jazmín 204, esquina con Pípila</span>
-                </div>
-              </article>
 
-              <article className="kids-card">
+              <div className="kids-card">
                 <div className="kids-card-heading">
-                  <h2>🍻 Bar 🍸</h2>
+                  <h3>🍻 Bar 🍸</h3>
                   <p>Un espacio para relajarte y disfrutar durante tu visita.</p>
                 </div>
-                <div className="kids-carousel">
+                <div
+                  className="bar-carousel"
+                  role="region"
+                  aria-roledescription="carrusel"
+                  aria-label="Fotos del bar"
+                >
                   <img
-                    src={barUrl}
-                    alt="Bar de Expres Charlys"
+                    key={barImages[barSlide].src}
+                    src={barImages[barSlide].src}
+                    alt={barImages[barSlide].alt}
                     className="kids-carousel-image"
+                    width="1280"
+                    height="720"
+                    loading="lazy"
                   />
+                  <button
+                    className="carousel-arrow carousel-arrow-prev"
+                    type="button"
+                    onClick={() => setBarSlide(current => (current - 1 + barImages.length) % barImages.length)}
+                    aria-label="Ver fotografía anterior del bar"
+                  >
+                    <span aria-hidden="true">‹</span>
+                  </button>
+                  <button
+                    className="carousel-arrow carousel-arrow-next"
+                    type="button"
+                    onClick={() => setBarSlide(current => (current + 1) % barImages.length)}
+                    aria-label="Ver siguiente fotografía del bar"
+                  >
+                    <span aria-hidden="true">›</span>
+                  </button>
+                  <div className="carousel-dots" aria-label="Elegir fotografía del bar">
+                    {barImages.map((image, index) => (
+                      <button
+                        className={`carousel-dot${index === barSlide ? ' active' : ''}`}
+                        type="button"
+                        key={image.src}
+                        onClick={() => setBarSlide(index)}
+                        aria-label={`Ver fotografía ${index + 1} del bar`}
+                        aria-current={index === barSlide ? 'true' : undefined}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </article>
-            </div>
+              </div>
+              </div>
+              <div className="about-features" aria-label="Nuestros servicios">
+                <span>🛒 Abarrotes</span>
+                <span>💊 Farmacia</span>
+                <span>🍽️ Restaurante</span>
+              </div>
+              <div className="about-location">
+                <span aria-hidden="true">📍</span>
+                <span>Jazmín 204, esquina con Pípila</span>
+              </div>
+            </article>
           </div>
         </section>
 

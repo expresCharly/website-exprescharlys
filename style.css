@@ -988,8 +988,7 @@
     gap:1.75rem;
     align-items:stretch;
   }
-  .about-card,
-  .kids-card {
+  .about-card {
     min-width:0;
     border-radius:20px;
     overflow:hidden;
@@ -1019,7 +1018,7 @@
     text-transform:uppercase;
   }
   .about-title {
-    max-width:520px;
+    max-width:900px;
     margin-bottom:1.2rem;
     color:#fff;
     font-family:'Bebas Neue',sans-serif;
@@ -1033,17 +1032,21 @@
     line-height:1.7;
   }
   .about-description strong { color:var(--yellow); }
-  .about-carousel {
+  .about-carousel,
+  .bar-carousel {
     position:relative;
+    flex:0 0 auto;
     width:100%;
-    height:230px;
+    min-width:0;
+    aspect-ratio:16 / 9;
     overflow:hidden;
     border:2px solid rgba(255,208,0,0.4);
     border-radius:14px;
     background:#080808;
     box-shadow:0 12px 28px rgba(0,0,0,0.4);
   }
-  .about-carousel-image {
+  .about-carousel-image,
+  .bar-carousel .kids-carousel-image {
     display:block;
     width:100%;
     height:100%;
@@ -1086,13 +1089,12 @@
     text-transform:uppercase;
     letter-spacing:0.05em;
   }
+  .about-gallery,
   .kids-card {
-    display:flex;
-    flex-direction:column;
+    min-width:0;
+    display:grid;
+    grid-template-rows:1fr auto;
     gap:1.25rem;
-    padding:1.5rem;
-    background:linear-gradient(135deg, #0f4c81 0%, #1a7ab8 100%);
-    border:3px solid #1a7ab8;
   }
   .kids-card-heading {
     text-align:center;
@@ -1105,7 +1107,7 @@
     letter-spacing:0.14em;
     text-transform:uppercase;
   }
-  .kids-card-heading h2 {
+  .kids-card-heading h3 {
     margin:0.25rem 0 0.35rem;
     color:#fff;
     font-family:'Bebas Neue',sans-serif;
@@ -1133,6 +1135,9 @@
     height: auto;
     object-fit: contain;
     animation: carouselFade 0.45s ease;
+  }
+  .bar-carousel {
+    border-color:rgba(255,255,255,0.4);
   }
   @keyframes carouselFade {
     from { opacity: 0.35; transform: scale(1.02); }
@@ -1206,8 +1211,6 @@
     .catalog-toolbar p { text-align: center; }
     .kids-section { padding:2rem 1rem; }
     .about-card { min-height:0; padding:1.75rem; }
-    .about-carousel { height:250px; }
-    .kids-card { padding:1rem; }
   }
   @media(prefers-reduced-motion: reduce) {
     .kids-carousel-image,

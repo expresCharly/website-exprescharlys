@@ -14,9 +14,10 @@ export async function readMenus(signal: AbortSignal): Promise<string[]> {
   const list = html.match(/const\s+images\s*=\s*\[([\s\S]*?)\]/)?.[1]
   if (!list) throw new Error('No se encontró la lista de menús')
 
-  const images = Array.from(list.matchAll(/['"](imgs\/[a-zA-Z0-9_.-]+\.(?:png|jpe?g|webp|avif))['"]/gi), match =>
-    new URL(match[1], menuSource).href,
-  )
+  // Omitir el menú infantil duplicado en todas las páginas que usan esta lista.
+  const images = Array.from(list.matchAll(/['"](imgs\/[a-zA-Z0-9_.-]+\.(?:png|jpe?g|webp|avif))['"]/gi), match => match[1])
+    .filter(path => !/^imgs\/menu_1\.png$/i.test(path))
+    .map(path => new URL(path, menuSource).href)
   if (!images.length) throw new Error('La lista de menús está vacía')
   return [...new Set(images)]
 }
